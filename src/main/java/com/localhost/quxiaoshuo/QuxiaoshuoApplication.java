@@ -4,11 +4,14 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 //暂时排除mybatis数据库exclude = DataSourceAutoConfiguration.class
 @SpringBootApplication
 //扫描Mybatis的Mapper,注解配置
 @MapperScan(basePackages = "com.localhost.quxiaoshuo.dao")
+//定时任务
+@EnableScheduling
 public class QuxiaoshuoApplication {
 
 	public static void main(String[] args) {

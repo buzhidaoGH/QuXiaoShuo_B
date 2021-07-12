@@ -1,25 +1,28 @@
-package com.localhost.quxiaoshuo.utils.crawler;
+package com.localhost.quxiaoshuo.crawler;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import com.localhost.quxiaoshuo.dao.NovelInfoDao;
+import com.localhost.quxiaoshuo.domain.NovelInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
-import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
-import us.codecraft.webmagic.selector.Selectable;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
 /**
  * 实现页面分析的逻辑,爬取笔趣阁.tv小说基本信息,并且存入数据库
  */
+@Component
 public class CrawlerBiquge implements PageProcessor {
+
+	@Autowired
+	private NovelInfoDao novelInfoDao;
 
 	/**
 	 * 分析笔趣阁.tv的小说页面(先爬取默认数据库内容)
@@ -67,6 +70,17 @@ public class CrawlerBiquge implements PageProcessor {
 			}
 
 			System.out.println(title + " : " + image + " : " + id + " : " + size + " : " + status + " : " + updateDate + " : " + url + " : " + author);
+			NovelInfo novelInfo = new NovelInfo();
+			novelInfo.setTitle(title);
+			novelInfo.setNovelkey(Long.valueOf(id));
+			novelInfo.setAuthor(author);
+			novelInfo.setChapters(Long.valueOf(size));
+			novelInfo.setUrl(url);
+			novelInfo.setDescription(description);
+			novelInfo.setUpdate(updateDate);
+			novelInfo.setStatus(status);
+
+			novelInfoDao.createNovelInfo(novelInfo);
 		} catch (Exception e) {
 			page.setSkip(true);
 			e.printStackTrace();
@@ -107,16 +121,16 @@ public class CrawlerBiquge implements PageProcessor {
 			.thread(10);
 	//.addUrl("http://www.biquge.tv/0_63352/","http://www.biquge.tv/0_63351/");
 
-	public static void main(String[] args) {
-		String url = "http://www.biquge.tv/0_";
-		// http://www.biquge.tv/0_63358/
-		for (int i = 2000; i <= 2300; i++) {
-			String realUrl = url + String.valueOf(i);
-			spider.addUrl(realUrl);
-		}
-		spider.start();
-		//启动爬虫(同步方法,当前线程中执行,完成此次进行下一次);start同时进行(新建线程)
-		// .run();
-		// .start();
-	}
+	// public static void main(String[] args) {
+	// 	String url = "http://www.biquge.tv/0_";
+	// 	// http://www.biquge.tv/0_66056/
+	// 	for (int i = 1; i <= 2; i++) {
+	// 		String realUrl = url + String.valueOf(i);
+	// 		spider.addUrl(realUrl);
+	// 	}
+	// 	spider.start();
+	// 	//启动爬虫(同步方法,当前线程中执行,完成此次进行下一次);start同时进行(新建线程)
+	// 	// .run();
+	// 	// .start();
+	// }
 }
