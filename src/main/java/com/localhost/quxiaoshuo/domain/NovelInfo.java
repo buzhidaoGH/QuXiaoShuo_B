@@ -18,6 +18,7 @@ public class NovelInfo {
 	private int status;
 	private String description;
 	private String category;
+	private Long hits;
 
 	@Override
 	public String toString() {
@@ -34,7 +35,16 @@ public class NovelInfo {
 				", status=" + status +
 				", description='" + description + '\'' +
 				", category='" + category + '\'' +
+				", hits=" + hits +
 				'}';
+	}
+
+	public Long getHits() {
+		return hits;
+	}
+
+	public void setHits(Long hits) {
+		this.hits = hits;
 	}
 
 	public Integer getId() {
