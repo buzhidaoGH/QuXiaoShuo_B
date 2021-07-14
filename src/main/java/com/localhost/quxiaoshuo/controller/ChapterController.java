@@ -38,7 +38,7 @@ public class ChapterController {
 			return map;
 		}
 		//如果小说存在,则判断chapter章节是否存在
-		System.out.println(novelInfo);
+		// System.out.println(novelInfo);
 		if (0==novelInfo.getIsexist()){//章节不存在,需要爬虫(创建一个新线程来爬取),此线程先沉睡5s
 			new Thread(new Runnable() {
 				@Override
@@ -48,7 +48,7 @@ public class ChapterController {
 				}
 			}).start();
 			try {//线程休眠3s
-				Thread.sleep(2000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

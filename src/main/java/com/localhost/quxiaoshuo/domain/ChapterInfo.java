@@ -11,7 +11,7 @@ public class ChapterInfo {
 	private String content;
 	private Integer words;
 	private Integer weight;
-	private Integer isexit;
+	private Integer isexist;
 
 	@Override
 	public String toString() {
@@ -23,16 +23,16 @@ public class ChapterInfo {
 				", content='" + content + '\'' +
 				", words=" + words +
 				", weight=" + weight +
-				", isexit=" + isexit +
+				", isexist=" + isexist +
 				'}';
 	}
 
-	public Integer getIsexit() {
-		return isexit;
+	public Integer getIsexist() {
+		return isexist;
 	}
 
-	public void setIsexit(Integer isexit) {
-		this.isexit = isexit;
+	public void setIsexist(Integer isexist) {
+		this.isexist = isexist;
 	}
 
 	public Integer getWeight() {

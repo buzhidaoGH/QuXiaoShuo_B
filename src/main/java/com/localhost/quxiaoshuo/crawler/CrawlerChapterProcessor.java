@@ -52,7 +52,7 @@ public class CrawlerChapterProcessor implements PageProcessor {
 
 
 	public void processStart(Integer novelKey,String url) {
-		System.out.println("执行了小说爬取:"+novelKey);
+		System.out.println("执行小说爬取Key:"+novelKey);
 		spider.addUrl(url);
 		spider.addPipeline(this.crawlerChapterPipeline);
 		spider.start();

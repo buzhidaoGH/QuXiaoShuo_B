@@ -59,10 +59,10 @@ public interface NovelInfoDao {
 	List<String> searchTipsByTitle(@Param("title")String title);
 
 	//按照novelKey来获取小说基本信息,和小说章节是否存在信息
-	@Select("SELECT title,novelkey,`update`,chapters,author,image,url,description,category FROM novelinfo WHERE novelkey = #{novelKey}")
+	@Select("SELECT title,novelkey,`update`,chapters,author,image,url,description,category,isexist FROM novelinfo WHERE novelkey = #{novelKey}")
 	NovelInfo isExistByNovelkey(@Param("novelKey") Integer novelKey);
 
 	//修改小说的章节存在状态为存在
-	@Update("UPDATE `novelinfo` SET isexit = 1 WHERE novelkey = #{novelKey}")
+	@Update("UPDATE `novelinfo` SET isexist = '1' WHERE novelkey = #{novelKey}")
 	void isExitChapterByNovelKey(@Param("novelKey") Integer novelKey);
 }

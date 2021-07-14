@@ -26,7 +26,13 @@ public class ChapterInfoServiceImpl implements ChapterInfoService {
 	@Override
 	public Boolean createChapterTable(Integer novelKey) {
 		String chapterNumber = "chapter" + novelKey / 1000;
-		return chapterInfoDao.createChapterTable(chapterNumber);
+		try {
+			chapterInfoDao.createChapterTable(chapterNumber);
+		}catch (Exception e){
+			System.out.println("创建数据库出现问题");
+			return false;
+		}
+		return true;
 	}
 
 	//将章节存入数据库中
