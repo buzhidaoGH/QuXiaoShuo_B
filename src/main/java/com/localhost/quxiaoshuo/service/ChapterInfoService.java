@@ -14,4 +14,10 @@ public interface ChapterInfoService {
 
 	//将章节存入数据库中
 	void saveChapterInfo(ChapterInfo chapterInfo);
+
+	//小说码确认数据库,章节码确认文章码
+	ChapterInfo selectChapterInfoByNovelAndChapter(Integer novelKey, Integer chapterWeight);
+
+	// 通过novel和weight 更新完善补全该章的内容和字数,并且更新isexist为1
+	void completionChapterInfo(Integer novel, Integer weight, String content, Integer words);
 }

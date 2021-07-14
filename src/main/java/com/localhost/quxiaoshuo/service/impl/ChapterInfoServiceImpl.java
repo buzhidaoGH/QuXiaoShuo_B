@@ -41,4 +41,18 @@ public class ChapterInfoServiceImpl implements ChapterInfoService {
 		String chapterNumber = "chapter" + chapterInfo.getNovelkey() / 1000;
 		chapterInfoDao.saveChapterInfo(chapterNumber,chapterInfo);
 	}
+
+	//小说码确认数据库,章节码确认文章码
+	@Override
+	public ChapterInfo selectChapterInfoByNovelAndChapter(Integer novelKey, Integer chapterWeight) {
+		String chapterNumber = "chapter" + novelKey / 1000;
+		return chapterInfoDao.selectChapterInfoByNovelAndChapter(chapterNumber,chapterWeight);
+	}
+
+	// 通过novel和weight 更新完善补全该章的内容和字数,并且更新isexist为1
+	@Override
+	public void completionChapterInfo(Integer novel, Integer weight, String content, Integer words) {
+		String chapterNumber = "chapter" + novel / 1000;
+		chapterInfoDao.completionChapterInfo(chapterNumber,weight,content,words);
+	}
 }

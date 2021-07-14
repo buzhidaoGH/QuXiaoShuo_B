@@ -1,5 +1,7 @@
 package com.localhost.quxiaoshuo.crawler;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
@@ -9,23 +11,24 @@ import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 
-import java.util.List;
-
 @Component
-public class CrawlerChapterProcessor implements PageProcessor {
+public class CompletionChapterProcessor implements PageProcessor {
+
 	@Autowired
-	private CrawlerChapterPipeline crawlerChapterPipeline;
+	private CompletionChapterPipeline completionChapterPipeline;
 
 	@Override
 	public void process(Page page) {
-		Html pageHtml = page.getHtml();
-		//一共多少章
-		List<Selectable> chapters = pageHtml.css("div#list dl dd").nodes();
-		//章节所属小说
-		String novelKey = page.getUrl().toString().split("_")[1].split("/")[0];
-		//存放保存
-		page.putField("novelKey", novelKey);
-		page.putField("chapters", chapters);
+		String html = page.getHtml().toString();
+		String content = Jsoup.parse(html).select("div#content").text();
+		String url = page.getUrl().toString();
+		String[] split = url.split("/");
+		Integer novel = Integer.parseInt(split[split.length - 2].split("_")[1]);
+		Integer weight = Integer.parseInt(split[split.length - 1].split("\\.")[0]);
+		page.putField("content",content);
+		page.putField("words",content.length());
+		page.putField("novel",novel);
+		page.putField("weight",weight);
 	}
 
 	/**
@@ -38,7 +41,7 @@ public class CrawlerChapterProcessor implements PageProcessor {
 			.setRetryTimes(2)//重试次数
 			.addHeader("Referer", "http://www.biquge.tv/")//设置跳转前页面
 			.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36")
-			.setTimeOut(30 * 1000)//超时时间30s
+			.setTimeOut(30*1000)//超时时间30s
 			.setRetryTimes(2000)//重试间隔
 			.setSleepTime(300);//两次间隔
 
@@ -47,14 +50,14 @@ public class CrawlerChapterProcessor implements PageProcessor {
 		return site;
 	}
 
-	private static Spider spider = Spider.create(new CrawlerChapterProcessor())
-			.thread(4);//线程4个
+	private static Spider spider = Spider.create(new CompletionChapterProcessor())
+			.thread(4);//线程5个
 
 
-	public void processStart(Integer novelKey, String url) {
-		System.out.println("执行小说爬取Key:" + novelKey);
+	public void processStart(String title,String chapterTitle,String url) {
+		System.out.println("开始爬取 "+title+" : "+chapterTitle);
 		spider.addUrl(url);
-		spider.addPipeline(this.crawlerChapterPipeline);
-		spider.start();
+		spider.addPipeline(this.completionChapterPipeline);
+		spider.run();
 	}
 }
