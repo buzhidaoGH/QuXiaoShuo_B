@@ -37,4 +37,7 @@ public interface NovelInfoService {
 	List<String> searchTipsByTitle(String title);
 
 	NovelInfo isExistByNovelkey(Integer novelKey);
+
+	//修改小说章节存在状态,为存在
+	void isExitChapterByNovelKey(Integer novelKey);
 }

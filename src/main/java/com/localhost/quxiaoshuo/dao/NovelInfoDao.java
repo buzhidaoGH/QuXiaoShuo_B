@@ -4,6 +4,7 @@ import com.localhost.quxiaoshuo.domain.NovelInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -57,7 +58,11 @@ public interface NovelInfoDao {
 	@Select("SELECT title FROM novelinfo WHERE title LIKE '%${title}%' ORDER BY hits DESC LIMIT 0,10")
 	List<String> searchTipsByTitle(@Param("title")String title);
 
-	//按照novelKey来获取小说基本信息
+	//按照novelKey来获取小说基本信息,和小说章节是否存在信息
 	@Select("SELECT title,novelkey,`update`,chapters,author,image,url,description,category FROM novelinfo WHERE novelkey = #{novelKey}")
 	NovelInfo isExistByNovelkey(@Param("novelKey") Integer novelKey);
+
+	//修改小说的章节存在状态为存在
+	@Update("UPDATE `novelinfo` SET isexit = 1 WHERE novelkey = #{novelKey}")
+	void isExitChapterByNovelKey(@Param("novelKey") Integer novelKey);
 }

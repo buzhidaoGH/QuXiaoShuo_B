@@ -85,19 +85,28 @@ public class NovelInfoServiceImpl implements NovelInfoService {
 		return novelInfoDao.qitaXiaoShuo();
 	}
 
+	//小说名称搜索结果
 	@Override
 	public List<NovelInfo> searchNovelByTitle(String title) {
 		return novelInfoDao.searchNovelByTitle(title);
 	}
 
+	//搜索栏小说标题
 	@Override
 	public List<String> searchTipsByTitle(String title) {
 		return novelInfoDao.searchTipsByTitle(title);
 	}
 
+	//通过NovelKey查询小说,并且判断小说信息是否存在,获取小说基本信息
 	@Override
 	public NovelInfo isExistByNovelkey(Integer novelKey) {
 		return novelInfoDao.isExistByNovelkey(novelKey);
+	}
+
+	//修改小说章节的存在状态为存在
+	@Override
+	public void isExitChapterByNovelKey(Integer novelKey) {
+		novelInfoDao.isExitChapterByNovelKey(novelKey);
 	}
 
 }

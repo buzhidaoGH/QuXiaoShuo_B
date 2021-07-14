@@ -6,15 +6,26 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.selector.Html;
+import us.codecraft.webmagic.selector.Selectable;
+
+import java.util.List;
 
 @Component
-public class CrawlerChapterProc implements PageProcessor {
+public class CrawlerChapterProcessor implements PageProcessor {
 	@Autowired
 	private CrawlerChapterPipeline crawlerChapterPipeline;
 
 	@Override
 	public void process(Page page) {
-
+		Html pageHtml = page.getHtml();
+		//一共多少章
+		List<Selectable> chapters = pageHtml.css("div#list dl dd").nodes();
+		//章节所属小说
+		String novelKey = page.getUrl().toString().split("_")[1].split("/")[0];
+		//存放保存
+		page.putField("novelKey", novelKey);
+		page.putField("chapters",chapters);
 	}
 
 	/**
@@ -36,7 +47,7 @@ public class CrawlerChapterProc implements PageProcessor {
 		return site;
 	}
 
-	private static Spider spider = Spider.create(new CrawlerChapterProc())
+	private static Spider spider = Spider.create(new CrawlerChapterProcessor())
 			.thread(10);//线程10个
 
 
