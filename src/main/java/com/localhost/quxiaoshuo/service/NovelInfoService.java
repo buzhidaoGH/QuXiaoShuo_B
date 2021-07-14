@@ -35,4 +35,6 @@ public interface NovelInfoService {
 	List<NovelInfo> searchNovelByTitle(String title);
 
 	List<String> searchTipsByTitle(String title);
+
+	NovelInfo isExistByNovelkey(Integer novelKey);
 }

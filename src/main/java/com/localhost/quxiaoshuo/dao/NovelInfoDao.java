@@ -57,4 +57,7 @@ public interface NovelInfoDao {
 	@Select("SELECT title FROM novelinfo WHERE title LIKE '%${title}%' ORDER BY hits DESC LIMIT 0,10")
 	List<String> searchTipsByTitle(@Param("title")String title);
 
+	//按照novelKey来获取小说基本信息
+	@Select("SELECT title,novelkey,`update`,chapters,author,image,url,description,category FROM novelinfo WHERE novelkey = #{novelKey}")
+	NovelInfo isExistByNovelkey(@Param("novelKey") Integer novelKey);
 }

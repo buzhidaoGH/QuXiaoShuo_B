@@ -95,4 +95,9 @@ public class NovelInfoServiceImpl implements NovelInfoService {
 		return novelInfoDao.searchTipsByTitle(title);
 	}
 
+	@Override
+	public NovelInfo isExistByNovelkey(Integer novelKey) {
+		return novelInfoDao.isExistByNovelkey(novelKey);
+	}
+
 }
