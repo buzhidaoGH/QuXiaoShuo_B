@@ -2,6 +2,7 @@ package com.localhost.quxiaoshuo.controller;
 
 import com.localhost.quxiaoshuo.domain.NovelInfo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@CrossOrigin(origins = {"http://127.0.0.1/","http://localhost/"})
 public class SpringBootTest {
 
 	//测试整合springMVC springboot

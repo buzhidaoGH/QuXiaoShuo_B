@@ -39,49 +39,49 @@ public class NovelInfoServiceImpl implements NovelInfoService {
 	@Override
 	public List<NovelInfo> xuanhuanXiaoShuo(Integer page) {
 		//分页
-		PageHelper.startPage(page,20);
+		PageHelper.startPage(page, 20);
 		return novelInfoDao.xuanhuanXiaoShuo();
 	}
 
 	@Override
 	public List<NovelInfo> xiuzhenXiaoShuo(Integer page) {
 		//分页
-		PageHelper.startPage(page,20);
+		PageHelper.startPage(page, 20);
 		return novelInfoDao.xiuzhenXiaoShuo();
 	}
 
 	@Override
 	public List<NovelInfo> dushiXiaoShuo(Integer page) {
 		//分页
-		PageHelper.startPage(page,20);
+		PageHelper.startPage(page, 20);
 		return novelInfoDao.dushiXiaoShuo();
 	}
 
 	@Override
 	public List<NovelInfo> chuanyueXiaoShuo(Integer page) {
 		//分页
-		PageHelper.startPage(page,20);
+		PageHelper.startPage(page, 20);
 		return novelInfoDao.chuanyueXiaoShuo();
 	}
 
 	@Override
 	public List<NovelInfo> wangyouXiaoShuo(Integer page) {
 		//分页
-		PageHelper.startPage(page,20);
+		PageHelper.startPage(page, 20);
 		return novelInfoDao.wangyouXiaoShuo();
 	}
 
 	@Override
 	public List<NovelInfo> kehuanXiaoShuo(Integer page) {
 		//分页
-		PageHelper.startPage(page,20);
+		PageHelper.startPage(page, 20);
 		return novelInfoDao.kehuanXiaoShuo();
 	}
 
 	@Override
 	public List<NovelInfo> qitaXiaoShuo(Integer page) {
 		//分页
-		PageHelper.startPage(page,20);
+		PageHelper.startPage(page, 20);
 		return novelInfoDao.qitaXiaoShuo();
 	}
 
@@ -107,6 +107,11 @@ public class NovelInfoServiceImpl implements NovelInfoService {
 	@Override
 	public void isExitChapterByNovelKey(Integer novelKey) {
 		novelInfoDao.isExitChapterByNovelKey(novelKey);
+	}
+
+	@Override
+	public List<NovelInfo> randomRankings(Integer day) {
+		return novelInfoDao.randomRankings(day);
 	}
 
 }

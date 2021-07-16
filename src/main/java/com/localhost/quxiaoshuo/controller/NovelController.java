@@ -6,16 +6,15 @@ import com.localhost.quxiaoshuo.service.NovelInfoService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@CrossOrigin(origins = {"http://127.0.0.1/","http://localhost/"})
 public class NovelController {
 
 	@Autowired
@@ -29,7 +28,7 @@ public class NovelController {
 	@RequestMapping("/index")
 	@ResponseBody
 	public Map<String, List<NovelInfo>> quxaioshuoIndex() {
-		System.out.println("首页内容");
+		//System.out.println("首页内容");
 		Map<String, List<NovelInfo>> indexContent = new HashMap<>();
 		//首页推荐(权重/收藏排行)
 		List<NovelInfo> collects = novelInfoService.collectionRanking();
@@ -41,6 +40,16 @@ public class NovelController {
 		List<NovelInfo> latestUpdates = novelInfoService.latestUpdatesRanking();
 		indexContent.put("latestUpdates", latestUpdates);
 		return indexContent;
+	}
+	@RequestMapping("/randomnovel")
+	@ResponseBody
+	public Map<String,List<NovelInfo>> randomNovel(){
+		Map<String, List<NovelInfo>> randomRanking = new HashMap<>();
+		Integer day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+		//随机推荐
+		List<NovelInfo> randomS = novelInfoService.randomRankings(day);
+		randomRanking.put("random", randomS);
+		return randomRanking;
 	}
 
 	//小说类型分类

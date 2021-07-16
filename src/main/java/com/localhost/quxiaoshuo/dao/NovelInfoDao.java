@@ -17,15 +17,15 @@ public interface NovelInfoDao {
 	public void createNovelInfo(@Param("novelInfo")NovelInfo novelInfo);
 
 	//查找小说收藏排行前6
-	@Select("SELECT title,novelkey,author,image,url,description,category,`update` FROM novelinfo ORDER BY weight DESC LIMIT 0,6;")
+	@Select("SELECT title,novelkey,author,image,url,category,`update` FROM novelinfo ORDER BY weight DESC LIMIT 0,6;")
 	List<NovelInfo> collectionRanking();
 
 	//查找小说最新更新前6
-	@Select("SELECT title,novelkey,author,image,url,description,category,`update` FROM novelinfo ORDER BY `update` DESC LIMIT 0,6;")
+	@Select("SELECT title,novelkey,author,image,url,category,`update` FROM novelinfo ORDER BY `update` DESC LIMIT 0,6;")
 	List<NovelInfo> latestUpdatesRanking();
 
 	//查找小说最热点击前六
-	@Select("SELECT title,novelkey,author,image,url,description,category FROM novelinfo ORDER BY hits DESC LIMIT 0,6;")
+	@Select("SELECT title,novelkey,author,image,url,category,`update` FROM novelinfo ORDER BY hits DESC LIMIT 0,6;")
 	List<NovelInfo> hitsRanking();
 
 	//玄幻小说
@@ -65,4 +65,8 @@ public interface NovelInfoDao {
 	//修改小说的章节存在状态为存在
 	@Update("UPDATE `novelinfo` SET isexist = '1' WHERE novelkey = #{novelKey}")
 	void isExitChapterByNovelKey(@Param("novelKey") Integer novelKey);
+
+	//按照日期随机推荐小说
+	@Select("SELECT title,novelkey,author,image,url,category,`update` FROM novelinfo ORDER BY RAND(${day}) LIMIT 0,10;")
+	List<NovelInfo> randomRankings(@Param("day") Integer day);
 }

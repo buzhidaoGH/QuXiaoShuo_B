@@ -8,6 +8,7 @@ import com.localhost.quxiaoshuo.service.ChapterInfoService;
 import com.localhost.quxiaoshuo.service.NovelInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 //小说章节详情处理(uri="/book/")
 @Controller
+@CrossOrigin(origins = {"http://127.0.0.1/","http://localhost/"})
 public class ChapterController {
 
 	@Autowired

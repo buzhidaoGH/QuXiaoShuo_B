@@ -40,4 +40,7 @@ public interface NovelInfoService {
 
 	//修改小说章节存在状态,为存在
 	void isExitChapterByNovelKey(Integer novelKey);
+
+	//按照日期来随机推荐小说
+	List<NovelInfo> randomRankings(Integer day);
 }
