@@ -67,6 +67,6 @@ public interface NovelInfoDao {
 	void isExitChapterByNovelKey(@Param("novelKey") Integer novelKey);
 
 	//按照日期随机推荐小说
-	@Select("SELECT title,novelkey,author,image,url,category,`update` FROM novelinfo ORDER BY RAND(${day}) LIMIT 0,10;")
+	@Select("SELECT title,novelkey,author,image,url,category,`update` FROM novelinfo ORDER BY RAND(${day}) ")
 	List<NovelInfo> randomRankings(@Param("day") Integer day);
 }

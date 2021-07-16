@@ -42,5 +42,5 @@ public interface NovelInfoService {
 	void isExitChapterByNovelKey(Integer novelKey);
 
 	//按照日期来随机推荐小说
-	List<NovelInfo> randomRankings(Integer day);
+	List<NovelInfo> randomRankings(Integer day, Integer page);
 }

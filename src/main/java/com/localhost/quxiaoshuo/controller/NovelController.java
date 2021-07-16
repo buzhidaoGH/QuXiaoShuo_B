@@ -41,18 +41,22 @@ public class NovelController {
 		indexContent.put("latestUpdates", latestUpdates);
 		return indexContent;
 	}
-	@RequestMapping("/randomnovel")
+	@RequestMapping("/randomnovel")//支持分页查询
 	@ResponseBody
-	public Map<String,List<NovelInfo>> randomNovel(){
-		Map<String, List<NovelInfo>> randomRanking = new HashMap<>();
+	public Map<String,PageInfo> randomNovel(@RequestParam(value = "page", required = false) Integer page){
+		if (page == null || page == 0) {
+			page = 1;
+		}
+		Map<String, PageInfo> randomRanking = new HashMap<>();
 		Integer day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 		//随机推荐
-		List<NovelInfo> randomS = novelInfoService.randomRankings(day);
-		randomRanking.put("random", randomS);
+		List<NovelInfo> novelInfoList = novelInfoService.randomRankings(day, page);
+		PageInfo pageInfo = new PageInfo(novelInfoList);
+		randomRanking.put("random", pageInfo);
 		return randomRanking;
 	}
 
-	//小说类型分类
+	//小说类型分类(支持分页)
 	@RequestMapping({"/xiaoshuo/{category}/{page}", "/xiaoshuo/{category}"})
 	@ResponseBody
 	public PageInfo categoryXiaoShuo(@PathVariable(value = "page", required = false) Integer page,

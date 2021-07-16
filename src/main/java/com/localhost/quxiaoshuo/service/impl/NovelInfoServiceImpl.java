@@ -110,8 +110,11 @@ public class NovelInfoServiceImpl implements NovelInfoService {
 	}
 
 	@Override
-	public List<NovelInfo> randomRankings(Integer day) {
-		return novelInfoDao.randomRankings(day);
+	public List<NovelInfo> randomRankings(Integer day, Integer page) {
+		//分页
+		PageHelper.startPage(page, 10);
+		List<NovelInfo> novelInfoList = novelInfoDao.randomRankings(day);
+		return novelInfoList;
 	}
 
 }
