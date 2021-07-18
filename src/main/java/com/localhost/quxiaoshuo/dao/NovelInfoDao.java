@@ -51,7 +51,7 @@ public interface NovelInfoDao {
 	List<NovelInfo> qitaXiaoShuo();
 
 	//按照书名模糊查找小说信息
-	@Select("SELECT title,novelkey,author,image,url,description,category FROM novelinfo WHERE title LIKE '%${title}%'")
+	@Select("SELECT title,novelkey,author,image,description,category FROM novelinfo WHERE title LIKE '%${title}%'")
 	List<NovelInfo> searchNovelByTitle(@Param("title") String title);
 
 	//按照标题书名模糊查找(热度最高的前十)

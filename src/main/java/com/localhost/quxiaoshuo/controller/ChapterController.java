@@ -26,7 +26,7 @@ public class ChapterController {
 	private NovelInfoService novelInfoService;
 	@Autowired
 	private ChapterInfoService chapterInfoService;
-	//爬取工具(章节详情)
+	//爬取工具(小说的章节详情) //需要多例(不能@Autowired)
 	@Autowired
 	private CrawlerChapterProcessor crawlerChapterProcessor;
 	//爬取工具(章节内容)

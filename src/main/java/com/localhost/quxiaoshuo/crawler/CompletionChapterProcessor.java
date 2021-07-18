@@ -33,7 +33,6 @@ public class CompletionChapterProcessor implements PageProcessor {
 		page.putField("words", content.length());
 		page.putField("novel", novel);
 		page.putField("weight", weight);
-		spider.close();
 	}
 
 	/**
@@ -54,15 +53,16 @@ public class CompletionChapterProcessor implements PageProcessor {
 	public Site getSite() {
 		return site;
 	}
-
-	private static Spider spider = Spider.create(new CompletionChapterProcessor());
-	// .thread(3);//线程5个
+/*
+	private Spider spider = Spider.create(new CompletionChapterProcessor());
+	// .thread(3);//线程5个*/
 
 
 	public void processStart(String title, String chapterTitle, String url) {
 		System.out.println("开始爬取 " + title + " : " + chapterTitle);
+		Spider spider = Spider.create(new CompletionChapterProcessor());
 		spider.addUrl(url);
 		spider.addPipeline(this.completionChapterPipeline);
-		spider.run();
+		spider.start();
 	}
 }

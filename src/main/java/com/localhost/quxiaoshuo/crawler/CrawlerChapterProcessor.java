@@ -17,8 +17,12 @@ import java.util.List;
 @Component
 @Scope("prototype")
 public class CrawlerChapterProcessor implements PageProcessor {
+	// @Autowired
+	// private CrawlerChapterProcessor crawlerChapterProcessor;
+	// private Spider spider = Spider.create(crawlerChapterProcessor);
+	// // .thread(3);
 	@Autowired
-	private CrawlerChapterPipeline crawlerChapterPipeline;
+	private CrawlerChapterPipeline crawlerChapterPipeline = new CrawlerChapterPipeline();
 
 	@Override
 	public void process(Page page) {
@@ -51,13 +55,11 @@ public class CrawlerChapterProcessor implements PageProcessor {
 		return site;
 	}
 
-	private static Spider spider = Spider.create(new CrawlerChapterProcessor());
-	// .thread(3);
-
-
 	public void processStart(Integer novelKey, String url) {
+		Spider spider = Spider.create(new CrawlerChapterProcessor());
 		spider.addUrl(url);
+		spider.thread(2);
 		spider.addPipeline(this.crawlerChapterPipeline);
-		spider.start();
+		spider.run();
 	}
 }
