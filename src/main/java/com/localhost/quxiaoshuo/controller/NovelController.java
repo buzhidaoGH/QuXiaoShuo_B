@@ -41,6 +41,7 @@ public class NovelController {
 		indexContent.put("latestUpdates", latestUpdates);
 		return indexContent;
 	}
+
 	@RequestMapping("/randomnovel")//支持分页查询
 	@ResponseBody
 	public Map<String,PageInfo> randomNovel(@RequestParam(value = "page", required = false) Integer page){
@@ -55,6 +56,7 @@ public class NovelController {
 		randomRanking.put("random", pageInfo);
 		return randomRanking;
 	}
+
 	//小说分类本数
 	@RequestMapping("/xiaoshuocategory")
 	@ResponseBody
