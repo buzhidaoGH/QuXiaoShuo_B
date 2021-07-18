@@ -29,6 +29,7 @@ public class CompletionChapterProcessor implements PageProcessor {
 		page.putField("words",content.length());
 		page.putField("novel",novel);
 		page.putField("weight",weight);
+		spider.close();
 	}
 
 	/**
@@ -39,7 +40,7 @@ public class CompletionChapterProcessor implements PageProcessor {
 	private Site site = Site.me()
 			.setCharset("gbk")//编码格式
 			.setRetryTimes(2)//重试次数
-			.addHeader("Referer", "http://www.biquge.tv/")//设置跳转前页面
+			.addHeader("Referer", "https://www.qbiqu.com/")//设置跳转前页面
 			.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36")
 			.setTimeOut(30*1000)//超时时间30s
 			.setRetryTimes(2000)//重试间隔
@@ -50,8 +51,8 @@ public class CompletionChapterProcessor implements PageProcessor {
 		return site;
 	}
 
-	private static Spider spider = Spider.create(new CompletionChapterProcessor())
-			.thread(4);//线程5个
+	private static Spider spider = Spider.create(new CompletionChapterProcessor());
+			// .thread(3);//线程5个
 
 
 	public void processStart(String title,String chapterTitle,String url) {

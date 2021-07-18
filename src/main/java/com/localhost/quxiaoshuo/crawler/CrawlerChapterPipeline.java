@@ -25,8 +25,8 @@ public class CrawlerChapterPipeline implements Pipeline {
 	public void process(ResultItems resultItems, Task task) {
 		// 获取封装好的章节详情
 		ChapterInfo chapterInfo = new ChapterInfo();
-		System.out.println("章节基本信息爬取进来了");
 		Integer novelKey = Integer.parseInt(resultItems.get("novelKey"));
+		System.out.println(novelKey+"小说的所有章节基本信息爬取进来了");
 		List<Selectable> chapters = resultItems.get("chapters");
 		int size = chapters.size();
 		if (chapters == null) {
@@ -40,10 +40,6 @@ public class CrawlerChapterPipeline implements Pipeline {
 			size -= 9;
 			ibg = 9;
 		}
-		//数据库是否存在,不存在则创建;
-		Boolean isExitTable = chapterInfoService.createChapterTable(novelKey);
-		//将小说详解改为存在(爬取之前就要将小说设置为存在/因为如果连续查询,会导致下载多遍该小说的章节)
-		novelInfoService.isExitChapterByNovelKey(novelKey);
 		//System.out.println(chapters);
 		for (int i = ibg; i < chapters.size(); i++) {
 			String chapterLink = chapters.get(i).links().toString();
@@ -57,7 +53,10 @@ public class CrawlerChapterPipeline implements Pipeline {
 			chapterInfo.setWeight(weight);
 			// System.out.println(chapterInfo);
 			//保存入数据库内
-			if (isExitTable) chapterInfoService.saveChapterInfo(chapterInfo);
+			chapterInfoService.saveChapterInfo(chapterInfo);
 		}
+		//设置章节为存在
+		//将小说详解改为存在(爬取之前就要将小说设置为存在/因为如果连续查询,会导致下载多遍该小说的章节)
+		novelInfoService.isExitChapterByNovelKey(novelKey);
 	}
 }

@@ -55,6 +55,12 @@ public class NovelController {
 		randomRanking.put("random", pageInfo);
 		return randomRanking;
 	}
+	//小说分类本数
+	@RequestMapping("/xiaoshuocategory")
+	@ResponseBody
+	public List<Integer> xiaoshuoCategory(){
+		return novelInfoService.xiaoshuoCategory();
+	}
 
 	//小说类型分类(支持分页)
 	@RequestMapping({"/xiaoshuo/{category}/{page}", "/xiaoshuo/{category}"})

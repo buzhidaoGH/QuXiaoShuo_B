@@ -7,7 +7,10 @@ import com.localhost.quxiaoshuo.service.NovelInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class NovelInfoServiceImpl implements NovelInfoService {
@@ -115,6 +118,19 @@ public class NovelInfoServiceImpl implements NovelInfoService {
 		PageHelper.startPage(page, 10);
 		List<NovelInfo> novelInfoList = novelInfoDao.randomRankings(day);
 		return novelInfoList;
+	}
+
+	@Override
+	public List<Integer> xiaoshuoCategory() {
+		List<Integer> category = new ArrayList<>();
+		category.add(novelInfoDao.totalXuanhuan("玄幻"));
+		category.add(novelInfoDao.totalXuanhuan("修真"));
+		category.add(novelInfoDao.totalXuanhuan("都市"));
+		category.add(novelInfoDao.totalXuanhuan("穿越"));
+		category.add(novelInfoDao.totalXuanhuan("网游"));
+		category.add(novelInfoDao.totalXuanhuan("科幻"));
+		category.add(novelInfoDao.totalXuanhuan("其他"));
+		return category;
 	}
 
 }

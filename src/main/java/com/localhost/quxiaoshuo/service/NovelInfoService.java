@@ -3,6 +3,7 @@ package com.localhost.quxiaoshuo.service;
 import com.localhost.quxiaoshuo.domain.NovelInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface NovelInfoService {
 	//新的小说基本信息
@@ -43,4 +44,7 @@ public interface NovelInfoService {
 
 	//按照日期来随机推荐小说
 	List<NovelInfo> randomRankings(Integer day, Integer page);
+
+	//小说分类本数
+	List<Integer> xiaoshuoCategory();
 }

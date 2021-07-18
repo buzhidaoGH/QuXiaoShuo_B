@@ -19,7 +19,7 @@ import java.util.Map;
 
 //小说章节详情处理(uri="/book/")
 @Controller
-@CrossOrigin(origins = {"http://127.0.0.1/","http://localhost/"})
+@CrossOrigin(origins = {"http://127.0.0.1/", "http://localhost/"})
 public class ChapterController {
 
 	@Autowired
@@ -47,13 +47,19 @@ public class ChapterController {
 		//如果小说存在,则判断chapter章节是否存在
 		// System.out.println(novelInfo);
 		if (0 == novelInfo.getIsexist()) {//章节不存在,需要爬虫(创建一个新线程来爬取),此线程先沉睡5s
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					System.out.println("爬取小说Key:" + novelInfo.getNovelkey());
-					crawlerChapterProcessor.processStart(novelKey, novelInfo.getUrl());
-				}
-			}).start();
+			String url = novelInfo.getUrl().replace("http://www.biquge.tv", "https://www.qbiqu.com");
+			//创建对应的数据库
+			//数据库是否存在,不存在则创建;
+			chapterInfoService.createChapterTable(novelKey);
+			// new Thread(new Runnable() {
+			// 	@Override
+			// 	public void run() {
+			//
+			// 	}
+			// }).start();
+			System.out.println("爬取小说章节Key:" + novelInfo.getNovelkey());
+			//开始爬取章节数
+			crawlerChapterProcessor.processStart(novelKey, url);
 			try {//线程休眠3s
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
@@ -61,6 +67,7 @@ public class ChapterController {
 			}
 		}
 		//如果章节存在(则直接搜索章节,按照权重升序排序),按照NovelKey查询所有章节;
+		System.out.println("数据库查看章节Key:" + novelInfo.getNovelkey());
 		List<ChapterInfo> chapterInfoList = chapterInfoService.searchChapterByNovelKey(novelKey);
 		map.put("novelInfo", novelInfo);
 		map.put("chapterInfo", chapterInfoList);
@@ -73,6 +80,7 @@ public class ChapterController {
 	public Map<String, Object> bookChapterContent(@PathVariable("novelkey") Integer novelKey,
 												  @PathVariable("chapterweight") Integer chapterWeight) {
 		Map<String, Object> map = new HashMap<>();
+		// String url = "http://m.biquge.tv/" + novelKey / 1000 + novelKey + chapterWeight;
 		//先判断该小说key存在,并且章节简介存在
 		NovelInfo novelInfo = novelInfoService.isExistByNovelkey(novelKey);
 		ChapterInfo chapterInfo = chapterInfoService.selectChapterInfoByNovelAndChapter(novelKey, chapterWeight);
@@ -86,9 +94,11 @@ public class ChapterController {
 		//判断具体的章节内容是否存在,chapter的isexist,是否为1
 		if (0 == chapterInfo.getIsexist()) {
 			//如果不存在则来爬取信息,通过章节中的地址filepath(修改为存在,通过novelkey确定数据库表,chapterweight)
-			completionChapterProcessor.processStart(novelInfo.getTitle(),chapterInfo.getTitle(),chapterInfo.getFilepath());
+			completionChapterProcessor.processStart(novelInfo.getTitle(), chapterInfo.getTitle(), chapterInfo.getFilepath().replace("http://www.biquge.tv", "https://www.qbiqu.com"));
 			//更新chapterInfo
 			chapterInfo = chapterInfoService.selectChapterInfoByNovelAndChapter(novelKey, chapterWeight);
+		} else {
+			System.out.println("直接返回 " + novelInfo.getTitle() + " : " + chapterInfo.getTitle());
 		}
 		//如果存在则直接返回内容数据
 		map.put("chapterInfo", chapterInfo);

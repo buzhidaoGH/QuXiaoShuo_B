@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ChapterInfoDao {
 	//按照NovelKey查询该小说的所有章节
-	@Select("SELECT title,novelkey,filepath FROM ${chapterNumber} WHERE novelkey = #{novelKey} ORDER BY weight")
+	@Select("SELECT title,novelkey,weight FROM ${chapterNumber} WHERE novelkey = #{novelKey} ORDER BY weight")
 	List<ChapterInfo> searchChapterByNovelKey(@Param("chapterNumber") String chapterNumber, @Param("novelKey") Integer novelKey);
 
 	@Update("CREATE TABLE IF NOT EXISTS `${chapterNumber}` (" +
@@ -25,7 +25,8 @@ public interface ChapterInfoDao {
 			"  `words` INT(11) DEFAULT NULL COMMENT '章节字数'," +
 			"  `content` TEXT COMMENT '章节内容'," +
 			"  `isexist` INT(11) DEFAULT '0' COMMENT '该章节的内容是否存在'," +
-			"  PRIMARY KEY (`id`)" +
+			"  PRIMARY KEY (`id`)," +
+			"  UNIQUE KEY `weight` (`weight`)" +
 			") ENGINE=INNODB DEFAULT CHARSET=utf8")
 	Boolean createChapterTable(@Param("chapterNumber") String chapterNumber);
 

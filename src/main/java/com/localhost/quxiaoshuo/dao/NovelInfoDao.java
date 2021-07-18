@@ -69,4 +69,8 @@ public interface NovelInfoDao {
 	//按照日期随机推荐小说
 	@Select("SELECT title,novelkey,author,image,url,category,`update` FROM novelinfo ORDER BY RAND(${day}) ")
 	List<NovelInfo> randomRankings(@Param("day") Integer day);
+
+	//小说数量
+	@Select("SELECT COUNT(*) FROM novelinfo WHERE category LIKE '%${novel}%'")
+	Integer totalXuanhuan(@Param("novel") String novel);
 }
