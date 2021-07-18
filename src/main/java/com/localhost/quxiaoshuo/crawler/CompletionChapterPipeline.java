@@ -2,12 +2,16 @@ package com.localhost.quxiaoshuo.crawler;
 
 import com.localhost.quxiaoshuo.service.ChapterInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
 @Component
+@Scope("prototype")
 public class CompletionChapterPipeline implements Pipeline {
 
 	@Autowired

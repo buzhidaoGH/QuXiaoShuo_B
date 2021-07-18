@@ -3,7 +3,10 @@ package com.localhost.quxiaoshuo.crawler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -12,6 +15,7 @@ import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 
 @Component
+@Scope("prototype")
 public class CompletionChapterProcessor implements PageProcessor {
 
 	@Autowired
@@ -25,10 +29,10 @@ public class CompletionChapterProcessor implements PageProcessor {
 		String[] split = url.split("/");
 		Integer novel = Integer.parseInt(split[split.length - 2].split("_")[1]);
 		Integer weight = Integer.parseInt(split[split.length - 1].split("\\.")[0]);
-		page.putField("content",content);
-		page.putField("words",content.length());
-		page.putField("novel",novel);
-		page.putField("weight",weight);
+		page.putField("content", content);
+		page.putField("words", content.length());
+		page.putField("novel", novel);
+		page.putField("weight", weight);
 		spider.close();
 	}
 
@@ -42,7 +46,7 @@ public class CompletionChapterProcessor implements PageProcessor {
 			.setRetryTimes(2)//重试次数
 			.addHeader("Referer", "https://www.qbiqu.com/")//设置跳转前页面
 			.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36")
-			.setTimeOut(30*1000)//超时时间30s
+			.setTimeOut(30 * 1000)//超时时间30s
 			.setRetryTimes(2000)//重试间隔
 			.setSleepTime(300);//两次间隔
 
@@ -52,11 +56,11 @@ public class CompletionChapterProcessor implements PageProcessor {
 	}
 
 	private static Spider spider = Spider.create(new CompletionChapterProcessor());
-			// .thread(3);//线程5个
+	// .thread(3);//线程5个
 
 
-	public void processStart(String title,String chapterTitle,String url) {
-		System.out.println("开始爬取 "+title+" : "+chapterTitle);
+	public void processStart(String title, String chapterTitle, String url) {
+		System.out.println("开始爬取 " + title + " : " + chapterTitle);
 		spider.addUrl(url);
 		spider.addPipeline(this.completionChapterPipeline);
 		spider.run();

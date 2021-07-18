@@ -1,7 +1,10 @@
 package com.localhost.quxiaoshuo.crawler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -12,6 +15,7 @@ import us.codecraft.webmagic.selector.Selectable;
 import java.util.List;
 
 @Component
+@Scope("prototype")
 public class CrawlerChapterProcessor implements PageProcessor {
 	@Autowired
 	private CrawlerChapterPipeline crawlerChapterPipeline;
@@ -26,7 +30,6 @@ public class CrawlerChapterProcessor implements PageProcessor {
 		//存放保存
 		page.putField("novelKey", novelKey);
 		page.putField("chapters", chapters);
-		spider.close();
 	}
 
 	/**
@@ -49,7 +52,7 @@ public class CrawlerChapterProcessor implements PageProcessor {
 	}
 
 	private static Spider spider = Spider.create(new CrawlerChapterProcessor());
-			// .thread(3);
+	// .thread(3);
 
 
 	public void processStart(Integer novelKey, String url) {

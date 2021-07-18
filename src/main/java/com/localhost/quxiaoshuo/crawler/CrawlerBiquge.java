@@ -3,6 +3,7 @@ package com.localhost.quxiaoshuo.crawler;
 import com.localhost.quxiaoshuo.dao.NovelInfoDao;
 import com.localhost.quxiaoshuo.domain.NovelInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -19,6 +20,7 @@ import java.util.List;
  * 实现页面分析的逻辑,爬取笔趣阁.tv小说基本信息,并且存入数据库
  */
 @Component
+@Scope("prototype")
 public class CrawlerBiquge implements PageProcessor {
 
 	@Autowired

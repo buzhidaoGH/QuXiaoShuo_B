@@ -51,15 +51,14 @@ public class ChapterController {
 			//创建对应的数据库
 			//数据库是否存在,不存在则创建;
 			chapterInfoService.createChapterTable(novelKey);
-			// new Thread(new Runnable() {
-			// 	@Override
-			// 	public void run() {
-			//
-			// 	}
-			// }).start();
-			System.out.println("爬取小说章节Key:" + novelInfo.getNovelkey());
-			//开始爬取章节数
-			crawlerChapterProcessor.processStart(novelKey, url);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					System.out.println("爬取小说章节Key:" + novelInfo.getNovelkey());
+					//开始爬取章节数
+					crawlerChapterProcessor.processStart(novelKey, url);
+				}
+			}).start();
 			try {//线程休眠3s
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {

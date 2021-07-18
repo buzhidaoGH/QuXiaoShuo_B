@@ -72,7 +72,7 @@
         <dependency>
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-core</artifactId>
-            <version>0.7.3</version>
+            <version>0.7.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-extension</artifactId>
-            <version>0.7.3</version>
+            <version>0.7.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
