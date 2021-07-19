@@ -46,7 +46,7 @@ public class CompletionChapterProcessor implements PageProcessor {
 			.addHeader("Referer", "https://www.qbiqu.com/")//设置跳转前页面
 			.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36")
 			.setTimeOut(30 * 1000)//超时时间30s
-			.setRetryTimes(2000)//重试间隔
+			.setRetryTimes(1000)//重试间隔
 			.setSleepTime(300);//两次间隔
 
 	@Override
@@ -63,6 +63,6 @@ public class CompletionChapterProcessor implements PageProcessor {
 		Spider spider = Spider.create(new CompletionChapterProcessor());
 		spider.addUrl(url);
 		spider.addPipeline(this.completionChapterPipeline);
-		spider.start();
+		spider.run();
 	}
 }

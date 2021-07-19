@@ -26,5 +26,6 @@ public class CompletionChapterPipeline implements Pipeline {
 		Integer weight = resultItems.get("weight");
 		// 通过novel和weight 更新完善补全该章的内容和字数,并且更新isexist为1
 		chapterInfoService.completionChapterInfo(novel,weight,content,words);
+		System.out.println(novel+" : 爬取完成 : "+weight);
 	}
 }
