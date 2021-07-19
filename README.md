@@ -60,10 +60,10 @@ http://www.biquge.tv/书名代号/章节代号.html
       - title:搜索串
       - ![image.png](https://cdn.nlark.com/yuque/0/2021/png/21696663/1626698359641-c43a1c3c-1060-49a9-8d17-56659b96066c.png#align=left&display=inline&height=183&margin=%5Bobject%20Object%5D&name=image.png&originHeight=365&originWidth=630&size=27132&status=done&style=none&width=315)
 - 章节信息后台接口:
-   7. "/book/{novelkey}":搜索小说章节信息和小说信息
+   + "/book/{novelkey}":搜索小说章节信息和小说信息
       - novelkey:小说id
       - ![image.png](https://cdn.nlark.com/yuque/0/2021/png/21696663/1626698420674-df93fd59-cf02-417f-b3c3-4f9b40288ab1.png#align=left&display=inline&height=218&margin=%5Bobject%20Object%5D&name=image.png&originHeight=435&originWidth=445&size=26395&status=done&style=none&width=223)
-   8. "/book/{novelkey}/{chapterweight}":章节详情的完善和返回(包括章节内容)
+   + "/book/{novelkey}/{chapterweight}":章节详情的完善和返回(包括章节内容)
       - novelkey:小说id
       - chapterweight:小说章节id
       - ![image.png](https://cdn.nlark.com/yuque/0/2021/png/21696663/1626698466773-9daf07ba-ad41-4294-8f25-984017b8393b.png#align=left&display=inline&height=319&margin=%5Bobject%20Object%5D&name=image.png&originHeight=637&originWidth=428&size=55502&status=done&style=none&width=214)
