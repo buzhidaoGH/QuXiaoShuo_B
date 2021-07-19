@@ -5,17 +5,19 @@ import com.localhost.quxiaoshuo.dao.NovelInfoDao;
 import com.localhost.quxiaoshuo.domain.NovelInfo;
 import com.localhost.quxiaoshuo.service.NovelInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class NovelInfoServiceImpl implements NovelInfoService {
 	@Autowired
 	private NovelInfoDao novelInfoDao;
+	@Autowired
+	@Qualifier("redisTemplate")
+	private RedisTemplate redisTemplate;
 
 	//插入新的NovelInfo,小说基本信息
 	@Override
@@ -97,6 +99,30 @@ public class NovelInfoServiceImpl implements NovelInfoService {
 	//搜索栏小说标题
 	@Override
 	public List<String> searchTipsByTitle(String title) {
+		try {
+			Set<String> titles = redisTemplate.keys('*' + title + '*');
+			if (6 >= titles.size()) {
+				System.out.println("开启新线程来往redis中存标题");
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						List<String> listTitle = novelInfoDao.searchTipsByTitle(title);
+						for (String listItem : listTitle) {
+							redisTemplate.opsForValue().set(listItem, '0');
+						}
+						redisTemplate.slaveOfNoOne();
+					}
+				}).start();
+			}
+			if (0 == titles.size()) {
+				System.out.println("redis搜索为空-返回数据库的数据");
+				return novelInfoDao.searchTipsByTitle(title);
+			}
+			System.out.println("返回的redis数据");
+			return new ArrayList<>(titles);
+		}catch (Exception e){
+			System.out.println("redis未开启");
+		}
 		return novelInfoDao.searchTipsByTitle(title);
 	}
 

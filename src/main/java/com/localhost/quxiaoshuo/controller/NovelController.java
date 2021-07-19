@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@CrossOrigin(origins = {"http://127.0.0.1/","http://localhost/"})
+@CrossOrigin(origins = {"http://127.0.0.1/", "http://localhost/"})
 public class NovelController {
 
 	@Autowired
@@ -44,7 +44,7 @@ public class NovelController {
 
 	@RequestMapping("/randomnovel")//支持分页查询
 	@ResponseBody
-	public Map<String,PageInfo> randomNovel(@RequestParam(value = "page", required = false) Integer page){
+	public Map<String, PageInfo> randomNovel(@RequestParam(value = "page", required = false) Integer page) {
 		if (page == null || page == 0) {
 			page = 1;
 		}
@@ -60,7 +60,7 @@ public class NovelController {
 	//小说分类本数
 	@RequestMapping("/xiaoshuocategory")
 	@ResponseBody
-	public List<Integer> xiaoshuoCategory(){
+	public List<Integer> xiaoshuoCategory() {
 		return novelInfoService.xiaoshuoCategory();
 	}
 
@@ -97,8 +97,11 @@ public class NovelController {
 	public Map<String, Object> searchTips(@RequestParam("title") String title) {
 		Map<String, Object> titles = new HashMap();
 		List<String> titleList = novelInfoService.searchTipsByTitle(title);
-		titles.put("titleList",titleList);
-		titles.put("size",titleList.size());
+		if (titleList.size() > 10) {
+			titleList = titleList.subList(0, 10);
+		}
+		titles.put("titleList", titleList);
+		titles.put("size", titleList.size());
 		return titles;
 	}
 
